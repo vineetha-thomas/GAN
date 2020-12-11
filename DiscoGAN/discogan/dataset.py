@@ -2,7 +2,7 @@ import os
 import cv2
 import numpy as np
 import pandas as pd
-from scipy.misc import imresize
+#from scipy.misc import imresize
 import scipy.io
 
 
@@ -15,6 +15,9 @@ chair_path = os.path.join(dataset_path, 'rendered_chairs')
 face_3d_path = os.path.join(dataset_path, 'PublicMM1', '05_renderings')
 face_real_path = os.path.join(dataset_path, 'real_face')
 car_path = os.path.join(dataset_path, 'data', 'cars')
+
+tshirts_path = os.path.join(dataset_path,'edges2tshirts')
+watches_path = os.path.join(dataset_path,'edges2watches')
 
 def shuffle_data(da, db):
     a_idx = range(len(da))
@@ -31,7 +34,10 @@ def shuffle_data(da, db):
 def read_images( filenames, domain=None, image_size=64):
 
     images = []
+    print("Printing filenames inside read_images")
+    print(filenames)
     for fn in filenames:
+        print(fn)
         image = cv2.imread(fn)
         if image is None:
             continue
@@ -51,6 +57,7 @@ def read_images( filenames, domain=None, image_size=64):
         images.append( image )
 
     images = np.stack( images )
+    print("Done heres")
     return images
 
 def read_attr_file( attr_path, image_dir ):
@@ -91,6 +98,10 @@ def get_edge2photo_files(item='edges2handbags', test=False):
         item_path = handbag_path
     elif item == 'edges2shoes':
         item_path = shoe_path
+    elif item == 'edges2tshirts':
+        item_path = tshirts_path
+    elif item == 'edges2watches':
+        item_path = watches_path
 
     if test == True:
         item_path = os.path.join( item_path, 'val' )

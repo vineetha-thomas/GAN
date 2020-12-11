@@ -71,13 +71,35 @@ def get_data():
         data_B = np.hstack( [data_B_1, data_B_2] )
         test_B = np.hstack( [test_B_1, test_B_2] )
 
+    elif args.task_name == 'edges2tshirts':
+        data_A, data_B = get_edge2photo_files( item='edges2tshirts', test=False )
+        test_A, test_B = get_edge2photo_files( item='edges2tshirts', test=True )
+
+    elif args.task_name == 'edges2watches':
+        data_A, data_B = get_edge2photo_files( item='edges2watches', test=False )
+        test_A, test_B = get_edge2photo_files( item='edges2watches', test=True )
+
+    elif args.task_name == 'tshirts2watches':
+        data_A_1, data_A_2 = get_edge2photo_files( item='edges2tshirts', test=False )
+        test_A_1, test_A_2 = get_edge2photo_files( item='edges2tshirts', test=True )
+
+        data_A = np.hstack( [data_A_1, data_A_2] )
+        test_A = np.hstack( [test_A_1, test_A_2] )
+
+        data_B_1, data_B_2 = get_edge2photo_files( item='edges2watches', test=False )
+        test_B_1, test_B_2 = get_edge2photo_files( item='edges2watches', test=True )
+
+        data_B = np.hstack( [data_B_1, data_B_2] )
+        test_B = np.hstack( [test_B_1, test_B_2] )
+
     return data_A, data_B, test_A, test_B
 
 def get_fm_loss(real_feats, fake_feats, criterion):
     losses = 0
     for real_feat, fake_feat in zip(real_feats, fake_feats):
         l2 = (real_feat.mean(0) - fake_feat.mean(0)) * (real_feat.mean(0) - fake_feat.mean(0))
-        loss = criterion( l2, Variable( torch.ones( l2.size() ) ).cuda() )
+        #loss = criterion( l2, Variable( torch.ones( l2.size() ) ).cuda() )
+        loss = criterion( l2, Variable( torch.ones( l2.size() ) ) )
         losses += loss
 
     return losses
@@ -265,11 +287,11 @@ def main():
                 optim_gen.step()
 
             if iters % args.log_interval == 0:
-                print "---------------------"
-                print "GEN Loss:", as_np(gen_loss_A.mean()), as_np(gen_loss_B.mean())
-                print "Feature Matching Loss:", as_np(fm_loss_A.mean()), as_np(fm_loss_B.mean())
-                print "RECON Loss:", as_np(recon_loss_A.mean()), as_np(recon_loss_B.mean())
-                print "DIS Loss:", as_np(dis_loss_A.mean()), as_np(dis_loss_B.mean())
+                print("---------------------")
+                print("GEN Loss:", as_np(gen_loss_A.mean()), as_np(gen_loss_B.mean()))
+                print("Feature Matching Loss:", as_np(fm_loss_A.mean()), as_np(fm_loss_B.mean()))
+                print("RECON Loss:", as_np(recon_loss_A.mean()), as_np(recon_loss_B.mean()))
+                print("DIS Loss:", as_np(dis_loss_A.mean()), as_np(dis_loss_B.mean()))
 
             if iters % args.image_save_interval == 0:
                 AB = generator_B( test_A )
