@@ -1,7 +1,7 @@
 import numpy as np 
 import os 
 import cv2 
-import matplotlib.pyplot as plt 
+#import matplotlib.pyplot as plt
 import argparse
 
 """
@@ -120,17 +120,21 @@ def get_args():
     args = parser.parse_args()
     return args
 
-def main():
-    args = get_args()
-    IN_DIR = args.in_dir
-    OUT_DIR = args.out_dir
+def preprocess(in_dir, out_dir):
+    #args = get_args()
+    # IN_DIR = args.in_dir
+    # OUT_DIR = args.out_dir
+    IN_DIR = in_dir
+    OUT_DIR = out_dir
+
     
     for filename in os.listdir(IN_DIR):
-        if filename.endswith(".jpg"):  
+        if filename.endswith(".png"):
             print(filename)       
             frame = cv2.imread(f'{IN_DIR}/{filename}') 
-            canny_img = Canny_detector(frame) 
-            cv2.imwrite(f'{OUT_DIR}/{filename}', canny_img)
+            canny_img = Canny_detector(frame)
+            new_filename = filename
+            cv2.imwrite(f'{OUT_DIR}/{new_filename}', canny_img)
    
-if  __name__ == '__main__':
-    main()
+# if  __name__ == '__main__':
+#     main()
