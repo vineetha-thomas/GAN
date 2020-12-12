@@ -35,9 +35,9 @@ import time
 #base_path_final = "/home/kalyani/Documents/Fall_20/CSE 599_DL/GANS/final_Tshirts/"
 
 base_path = '../DiscoGAN/datasets/'
-path_edges2tshirts = f'{base_path}/edges2tshirts/'
-path_tshirts = f'{base_path}/tshirts/'
-path_tshirts_edges = f'{base_path}/tshirts_edges/'
+path_edges2tshirts = base_path +'edges2tshirts/' #f'{base_path}/edges2tshirts/'
+path_tshirts = base_path + 'tshirts/' #f'{base_path}/tshirts/'
+path_tshirts_edges = base_path + 'tshirts_edges/' #f'{base_path}/tshirts_edges/'
 
 #Create directory's if they dont exist
 if not os.path.exists(base_path):
@@ -46,8 +46,10 @@ if not os.path.exists(base_path):
 
 if not os.path.exists(path_edges2tshirts):
     os.makedirs(path_edges2tshirts)
-    os.makedirs(f'{path_edges2tshirts}train')
-    os.makedirs(f'{path_edges2tshirts}val')
+    #os.makedirs(f'{path_edges2tshirts}train')
+    #os.makedirs(f'{path_edges2tshirts}val')
+    os.makedirs(path_edges2tshirts + 'train')
+    os.makedirs(path_edges2tshirts + 'val')
 
 if not os.path.exists(path_tshirts):
     os.makedirs(path_tshirts)
@@ -130,6 +132,8 @@ for image in imagesList:
 
     if idx in val_idx:
         #final_im.save(str(path_edges2tshirts) + str(image))
-        final_im.save(f'{path_edges2tshirts}/val/{image}')
+        #final_im.save(f'{path_edges2tshirts}/val/{image}')
+        final_im.save(path_edges2tshirts + '/val/' + image)
     else:
-        final_im.save(f'{path_edges2tshirts}/train/{image}')
+        #final_im.save(f'{path_edges2tshirts}/train/{image}')
+        final_im.save(path_edges2tshirts + '/train/' + image)

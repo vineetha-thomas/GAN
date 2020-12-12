@@ -25,9 +25,9 @@ headers = {
 #base_path_final = "/home/kalyani/Documents/Fall_20/CSE 599_DL/GANS/final_Watches/"
 
 base_path = '../DiscoGAN/datasets/'
-path_edges2watches = f'{base_path}/edges2watches/'
-path_watches = f'{base_path}/watches/'
-path_watches_edges = f'{base_path}/watches_edges/'
+path_edges2watches = base_path + 'edges2watches/' #f'{base_path}/edges2watches/'
+path_watches = base_path + 'watches/' #f'{base_path}/watches/'
+path_watches_edges = base_path + 'watches_edges/' #f'{base_path}/watches_edges/'
 
 #Create directory's if they dont exist
 if not os.path.exists(base_path):
@@ -36,8 +36,10 @@ if not os.path.exists(base_path):
 
 if not os.path.exists(path_edges2watches):
     os.makedirs(path_edges2watches)
-    os.makedirs(f'{path_edges2watches}train')
-    os.makedirs(f'{path_edges2watches}val')
+    #os.makedirs(f'{path_edges2watches}train')
+    #os.makedirs(f'{path_edges2watches}val')
+    os.makedirs(path_edges2watches + 'train')
+    os.makedirs(path_edges2watches + 'val')
 
 if not os.path.exists(path_watches):
     os.makedirs(path_watches)
