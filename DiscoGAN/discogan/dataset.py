@@ -2,7 +2,7 @@ import os
 import cv2
 import numpy as np
 import pandas as pd
-#from scipy.misc import imresize
+from scipy.misc import imresize
 import scipy.io
 
 
@@ -10,14 +10,15 @@ dataset_path = './datasets/'
 celebA_path = os.path.join(dataset_path, 'celebA')
 handbag_path = os.path.join(dataset_path, 'edges2handbags')
 shoe_path = os.path.join(dataset_path, 'edges2shoes')
+
+watch_path = os.path.join(dataset_path, 'edges2watches')
+tshirt_path = os.path.join(dataset_path, 'edges2tshirts')
+
 facescrub_path = os.path.join(dataset_path, 'facescrub')
 chair_path = os.path.join(dataset_path, 'rendered_chairs')
 face_3d_path = os.path.join(dataset_path, 'PublicMM1', '05_renderings')
 face_real_path = os.path.join(dataset_path, 'real_face')
 car_path = os.path.join(dataset_path, 'data', 'cars')
-
-tshirts_path = os.path.join(dataset_path,'edges2tshirts')
-watches_path = os.path.join(dataset_path,'edges2watches')
 
 def shuffle_data(da, db):
     a_idx = range(len(da))
@@ -32,24 +33,33 @@ def shuffle_data(da, db):
     return shuffled_da, shuffled_db
 
 def read_images( filenames, domain=None, image_size=64):
-
+    #print(filenames)
     images = []
-    print("Printing filenames inside read_images")
-    print(filenames)
     for fn in filenames:
-        print(fn)
         image = cv2.imread(fn)
+	#height, width, channels = image.shape
+	#print(fn)
+	#print(image.shape)
+	#print(width/2)
+	#half = width/2
+	#print(type(image))
         if image is None:
+	    print("hereee")
             continue
+	height, width, channels = image.shape
+        #print(fn)
+        #print(image.shape)
+        #print(width/2)
+        half = width/2
 
         if domain == 'A':
             kernel = np.ones((3,3), np.uint8)
-            image = image[:, :256, :]
+            image = image[:, :half, :]
             image = 255. - image
             image = cv2.dilate( image, kernel, iterations=1 )
             image = 255. - image
         elif domain == 'B':
-            image = image[:, 256:, :]
+            image = image[:, half:, :]
 
         image = cv2.resize(image, (image_size,image_size))
         image = image.astype(np.float32) / 255.
@@ -57,7 +67,6 @@ def read_images( filenames, domain=None, image_size=64):
         images.append( image )
 
     images = np.stack( images )
-    print("Done heres")
     return images
 
 def read_attr_file( attr_path, image_dir ):
@@ -98,10 +107,10 @@ def get_edge2photo_files(item='edges2handbags', test=False):
         item_path = handbag_path
     elif item == 'edges2shoes':
         item_path = shoe_path
-    elif item == 'edges2tshirts':
-        item_path = tshirts_path
     elif item == 'edges2watches':
-        item_path = watches_path
+        item_path = watch_path
+    elif item == 'edges2tshirts':
+        item_path = tshirt_path
 
     if test == True:
         item_path = os.path.join( item_path, 'val' )

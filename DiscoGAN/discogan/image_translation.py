@@ -152,7 +152,7 @@ def main():
         test_A = read_images( test_style_A, 'A', args.image_size )
         test_B = read_images( test_style_B, 'B', args.image_size )
 
-    elif args.task_name == 'handbags2shoes' or args.task_name == 'shoes2handbags':
+    elif args.task_name == 'handbags2shoes' or args.task_name == 'shoes2handbags' or args.task_name == 'tshirts2watches' or args.task_name == 'watches2tshirts':
         test_A = read_images( test_style_A, 'B', args.image_size )
         test_B = read_images( test_style_B, 'B', args.image_size )
 
@@ -221,7 +221,7 @@ def main():
             if args.task_name.startswith( 'edges2' ):
                 A = read_images( A_path, 'A', args.image_size )
                 B = read_images( B_path, 'B', args.image_size )
-            elif args.task_name =='handbags2shoes' or args.task_name == 'shoes2handbags':
+            elif args.task_name =='handbags2shoes' or args.task_name == 'shoes2handbags'  or args.task_name == 'tshirts2watches' or args.task_name == 'watches2tshirts' :
                 A = read_images( A_path, 'B', args.image_size )
                 B = read_images( B_path, 'B', args.image_size )
             else:
